@@ -27,10 +27,10 @@ To run the scripts (if you run the whole script, without copy/paste the content 
 
 ```shell
 $ # Violent, but effective
-$ Set-ExecutionPolicy unrestricted
+$ Set-ExecutionPolicy Bypass
 ```
 
-Run your scripts by responding R while running it. If you want to avoid it, follow [this tutorial](https://4sysops.com/archives/powershell-bypass-executionpolicy-to-run-downloaded-scripts/)
+To understand why using _Bypass_ execution policy, follow [this technical note](https://4sysops.com/archives/powershell-bypass-executionpolicy-to-run-downloaded-scripts/)
 
 ## Contributing
 
