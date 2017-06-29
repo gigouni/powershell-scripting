@@ -21,3 +21,5 @@ Else
 {
     Write-Host "The upgrade is impossible. The Service Pack 1 isn't available.`n" -foregroundcolor red
 }
+Write-Host "`n`nThis window will automatically be closed in some seconds"
+Start-Sleep -s 5

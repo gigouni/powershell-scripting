@@ -17,7 +17,7 @@
 # -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If (Test-Path $Env:JAVA_HOME) 
+If (Test-Path env:JAVA_HOME) 
 {
     Invoke-Expression "java -version"
 } 

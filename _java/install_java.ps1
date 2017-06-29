@@ -1,12 +1,12 @@
 <#
     _Description:_
 
-        Check if the JAVA_HOME environment variable exists
+        Check if Java is installed by getting the JAVA_HOME environment variable
         If true, stop the script
-        If false, download and set the value of JAVA_HOME with the path to java.exe
+        If false, run the JRE exe and set JAVA_HOME with the path to java.exe
 
     _Author:_ Nicolas GIGOU
-    _Date:_ 23th of June, 2017
+    _Date:_ 27th of June, 2017
     _Powershell version used:_ 2.0
 #>
 
@@ -43,4 +43,4 @@ Else
     }
 }
 Write-Host "`nThis window will automatically be closed in some seconds`n"
-Start-Sleep -s 15
+Start-Sleep -s 10

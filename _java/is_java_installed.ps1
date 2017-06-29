@@ -11,7 +11,7 @@
 # -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If (Test-Path $Env:JAVA_HOME) 
+If (Test-Path env:JAVA_HOME) 
 { 
     Write-Host "Java is installed!" -foregroundcolor green
     $Env:JAVA_HOME 

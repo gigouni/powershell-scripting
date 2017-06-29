@@ -22,4 +22,4 @@
 #>
 
 $PSVersionTable
-Start-Sleep -s 3
+Start-Sleep -s 5
