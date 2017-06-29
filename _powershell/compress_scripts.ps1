@@ -21,8 +21,16 @@ $DESTINATION = "$PARENT_SCRIPTS_FOLDER_PATH\scripts.zip"
 # -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If(Test-path $DESTINATION) {Remove-item $DESTINATION}
+If(Test-path $DESTINATION) {
+    Write-Host "$DESTINATION already exists, it will remove it to update its content"
+    Remove-item $DESTINATION
+}
+
+Write-Host "Compressing..."
+
 Add-Type -assembly "system.io.compression.filesystem"
 [io.compression.zipfile]::CreateFromDirectory($SOURCE, $DESTINATION)
 
-Start-Sleep -s 10
+Write-Host "Folder compressed successfully!" -foregroundcolor green
+
+Start-Sleep -s 3

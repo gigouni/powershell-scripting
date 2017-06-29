@@ -12,12 +12,15 @@
 # -----------------------------------------------------------------
 #                        File constants
 # -----------------------------------------------------------------
-$SCRIPTS_FOLDER_PATH = Split-Path (Split-Path $MyInvocation.MyCommand.Path -Parent) -Parent
+$SCRIPTS_FOLDER_PATH = Split-Path $MyInvocation.MyCommand.Path -Parent
 $SELENIUM_JAR_PATH = "$SCRIPTS_FOLDER_PATH\bin\selenium-server-standalone-3.4.0.jar"
 $SELENIUM_HUB_URL = "http://localhost"
 $SELENIUM_HUB_PORT = "4444"
 $SELENIUM_GRID_CONSOLE_URL = "/grid/console"
 $SELENIUM_JAR_DL_URL = "http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar"
+$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+$JRE_PATH = "$SCRIPTS_FOLDER_PATH\bin\jre-8u131-windows-i586.exe"
+$JAVA_BIN_PATH = "C:\Program Files\Java\jre1.8.0_131\bin"
 
 
 # -----------------------------------------------------------------
@@ -27,25 +30,27 @@ If (Test-Path env:JAVA_HOME)
 {
     Write-Host "Java is installed" -foregroundcolor green
     Write-Host "Let's try to run the Selenium hub now..."
+
     If (Test-Path $SELENIUM_JAR_PATH) 
     { 
-	# Run browser to check grid console
-	$IE=new-object -com internetexplorer.application
-	$IE.navigate2("$SELENIUM_HUB_URL`:$SELENIUM_HUB_PORT$SELENIUM_GRID_CONSOLE_URL")
-	$IE.visible=$true
+        # Run browser to check grid console
+        $IE=new-object -com internetexplorer.application
+        $IE.navigate2("$SELENIUM_HUB_URL`:$SELENIUM_HUB_PORT$SELENIUM_GRID_CONSOLE_URL")
+        $IE.visible=$true
 
         Write-Host "Everything is OK for the Selenium hub. Gonna run it now"
         Invoke-Expression "java -jar $SELENIUM_JAR_PATH -port $SELENIUM_HUB_PORT -role hub"
     } 
     Else 
     { 
-        Write-Host "The JAR hasn't been found. Please download it and move it here: $PSScriptRoot\..\bin" -foregroundcolor red
+        Write-Host "The JAR hasn't been found. Please download it and move it here: $SCRIPTS_FOLDER_PATH\bin" -foregroundcolor red
         Write-Host "Note: you can find it here: $SELENIUM_JAR_DL_URL"
     }
 } 
 Else 
 { 
-    Write-Host "The JAVA_HOME env var hasn't been set. `nRun Java install script before this one" -foregroundcolor red 
+    Write-Host "The JAVA_HOME env var hasn't been set yet" -foregroundcolor red
+    Write-Host "Run the step 01 script before"
 }
 
 Write-Host "`n`nThis window will automatically be closed in some seconds"

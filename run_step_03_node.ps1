@@ -1,8 +1,8 @@
 <#
     _Description:_
 
-        Check if the Selenium is running by pinging the hub port
-        If true, run IE as a hub's node
+        Check if Java is installed by getting the JAVA_HOME environment variable value
+        If true, check if the Selenium is present then run it
 
     _Author:_ Nicolas GIGOU
     _Date:_ 29th of June, 2017
@@ -12,7 +12,7 @@
 # -----------------------------------------------------------------
 #                        File constants
 # -----------------------------------------------------------------
-$SCRIPTS_FOLDER_PATH = Split-Path (Split-Path $MyInvocation.MyCommand.Path -Parent) -Parent
+$SCRIPTS_FOLDER_PATH = Split-Path $MyInvocation.MyCommand.Path -Parent
 $SELENIUM_JAR_PATH = "$SCRIPTS_FOLDER_PATH\bin\selenium-server-standalone-3.4.0.jar"
 $SELENIUM_HUB_HOST = "http://localhost"
 $SELENIUM_HUB_PORT = "4444"
@@ -24,25 +24,9 @@ $GRID_REGISTER_URL = "/grid/register"
 # -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-Write-Host "Java is installed" -foregroundcolor green
-Write-Host "Let's try to run the Selenium hub now..."
-
-Try {
-
-    # No need to check if JAVA_HOME exists here
-    # If the Selenium hub is running, JAVA_HOME is check and currently in used
-    
-    <#
-        # If you also want to check if the Selenium hub is currently running
-        If (Test-Port -computer $SELENIUM_HUB_HOST -port $SELENIUM_HUB_PORT) 
-        { 
-            Write-Host "The Selenium hub is running on the $SELENIUM_HUB_PORT port" -foregroundcolor green
-        } 
-        Else 
-        { 
-            Write-Host "The Selenium hub isn't running on the $SELENIUM_HUB_PORT port. Correct it before running this script" -foregroundcolor red
-        }
-    #>
+If (Test-Path env:JAVA_HOME) 
+{
+    Write-Host "Java is installed" -foregroundcolor green
 
     # Splite the command into several little ones to simplify the visibility of options and easily move the params order
     $cmd = "java"
@@ -55,15 +39,12 @@ Try {
     # Enable it if necessary    
     # $opts += "-debug "
     Invoke-Expression "$cmd $opts"
-
-}
-Catch
-{
-    $ErrorMessage = $_.Exception.Message
-    $FailedItem = $_.Exception.ItemName
-    Write-Log "Failed while running the script:`nError: $ErrorMessage`nItem: $FailedItem"
-    Break
+} 
+Else 
+{ 
+    Write-Host "The JAVA_HOME env var hasn't been set yet" -foregroundcolor red
+    Write-Host "Run the step 01 script before"
 }
 
 Write-Host "`n`nThis window will automatically be closed in some seconds"
-Start-Sleep -s 20
+Start-Sleep -s 10
