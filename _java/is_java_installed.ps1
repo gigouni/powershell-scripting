@@ -1,7 +1,7 @@
 <#
     _Description:_
 
-        Check if Java is installed by getting the JAVA_HOME environment variable value
+        Check if Java is installed by checking the java.exe existence
 
     _Author:_ Nicolas GIGOU
     _Date:_ 23th of June, 2017
@@ -9,12 +9,17 @@
 #>
 
 # -----------------------------------------------------------------
+#                        File constants
+# -----------------------------------------------------------------
+$JAVA_BIN_PATH = "C:\Program Files\Java\jre1.8.0_131\bin"
+$JAVA_EXE_PATH = "$JAVA_BIN_PATH\java.exe"
+
+# -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If (Test-Path env:JAVA_HOME) 
+If (Test-Path $JAVA_EXE_PATH) 
 { 
     Write-Host "Java is installed!" -foregroundcolor green
-    $Env:JAVA_HOME 
 } 
 Else
 { 

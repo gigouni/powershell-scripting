@@ -1,7 +1,7 @@
 <#
     _Description:_
 
-        Check if Java is installed by getting the JAVA_HOME environment variable value
+        Check if Java is installed by checking the java.exe existence
         If true, check if the Selenium is present then run it
 
     _Author:_ Nicolas GIGOU
@@ -13,37 +13,45 @@
 #                        File constants
 # -----------------------------------------------------------------
 $SCRIPTS_FOLDER_PATH = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+# Java
+$JAVA_BIN_PATH = "C:\Program Files\Java\jre1.8.0_131\bin"
+$JAVA_EXE_PATH = "$JAVA_BIN_PATH\java.exe"
+
+# Selenium
 $SELENIUM_JAR_PATH = "$SCRIPTS_FOLDER_PATH\bin\selenium-server-standalone-3.4.0.jar"
 $SELENIUM_HUB_HOST = "http://localhost"
 $SELENIUM_HUB_PORT = "4444"
-$IE_DRIVER_EXE_PATH = "$SCRIPTS_FOLDER_PATH\bin\IEDriverServer.exe"
-$IE_DRIVER_PORT = "5558"
 $GRID_REGISTER_URL = "/grid/register"
 
+# Selenium node - IE11
+$IE_DRIVER_EXE_PATH = "IEDriverServer"
+$IE_DRIVER_PORT = "5558"
 
 # -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If (Test-Path env:JAVA_HOME) 
+If (Test-Path $JAVA_EXE_PATH) 
 {
     Write-Host "Java is installed" -foregroundcolor green
 
     # Splite the command into several little ones to simplify the visibility of options and easily move the params order
     $cmd = "java"
-    $opts = "-Dwebdriver.ie.driver=$IE_DRIVER_EXE_PATH "
-    $opts += "-browser `"browserName=internet explorer,version=11,platform=WINDOWS,maxInstances=10`" "
+    $opts = "-Dwebdriver=$IE_DRIVER_EXE_PATH "
     $opts += "-jar $SELENIUM_JAR_PATH "
-    $opts += "-role webdriver "
+    $opts += "-browser `"browserName=internet explorer,version=11,platform=WINDOWS`" "
+    $opts += "-role node "
     $opts += "-hub $SELENIUM_HUB_HOST`:$SELENIUM_HUB_PORT$GRID_REGISTER_URL "
     $opts += "-port $IE_DRIVER_PORT "
-    # Enable it if necessary    
     # $opts += "-debug "
+
+    Write-Host "$cmd $opts"
     Invoke-Expression "$cmd $opts"
 } 
 Else 
 { 
-    Write-Host "The JAVA_HOME env var hasn't been set yet" -foregroundcolor red
-    Write-Host "Run the step 01 script before"
+    Write-Host "Java isn't installed yet. `nRun Java install script before this one" -foregroundcolor red
+    Write-Host "Then, run the step_02 before this one"
 }
 
 Write-Host "`n`nThis window will automatically be closed in some seconds"

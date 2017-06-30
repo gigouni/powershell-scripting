@@ -1,7 +1,7 @@
 <#
     _Description:_
 
-        Check if Java is installed by getting the JAVA_HOME environment variable value
+        Check if Java is installed by checking the java.exe existence
         If true, check if the Selenium is present then run it
 
     _Author:_ Nicolas GIGOU
@@ -13,45 +13,37 @@
 #                        File constants
 # -----------------------------------------------------------------
 $SCRIPTS_FOLDER_PATH = Split-Path $MyInvocation.MyCommand.Path -Parent
-$SELENIUM_JAR_PATH = "$SCRIPTS_FOLDER_PATH\bin\selenium-server-standalone-3.4.0.jar"
-$SELENIUM_HUB_URL = "http://localhost"
-$SELENIUM_HUB_PORT = "4444"
-$SELENIUM_GRID_CONSOLE_URL = "/grid/console"
-$SELENIUM_JAR_DL_URL = "http://selenium-release.storage.googleapis.com/3.4/selenium-server-standalone-3.4.0.jar"
-$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
+
+# Java
 $JRE_PATH = "$SCRIPTS_FOLDER_PATH\bin\jre-8u131-windows-i586.exe"
 $JAVA_BIN_PATH = "C:\Program Files\Java\jre1.8.0_131\bin"
+$JAVA_EXE_PATH = "$JAVA_BIN_PATH\java.exe"
 
 
 # -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If (Test-Path env:JAVA_HOME) 
+If (Test-Path $JAVA_EXE_PATH) 
 {
     Write-Host "Java is installed" -foregroundcolor green
 } 
 Else 
 { 
-    Write-Host "The JAVA_HOME env var hasn't been set yet" -foregroundcolor red
-    Write-Host "Running Java install script..."
+    Write-Host "Java ins't install yet" -foregroundcolor red
+    Write-Host "Running Java install executable..."
 
     If(Test-Path $JRE_PATH)
     {
-        # Run the install exe
+        # Let the user see what's happening
         Write-Host "Run $JRE_PATH"
-	# Let the user see what's happening
-	Start-Sleep -s 2
+        Start-Sleep -s 2
         Invoke-Expression $JRE_PATH
-        # Not mandatory but make it easier to check the Java install
-        [Environment]::SetEnvironmentVariable("JAVA_HOME", $JAVA_BIN_PATH, "User")
-	Write-Host "JAVA_HOME value has been set"
+	    Write-Host "Java is now ready to use"
     }
     Else
     {
         Write-Host "The JRE exe hasn't been found for the install. Please check path: $JRE_PATH" -foregroundcolor red
-	Write-Host "Please download it and move it to the bin folder before run this script"
-	# Clean exit
-	exit
+        Write-Host "Please download it and move it to the bin folder before run this script"
     }
 }
 

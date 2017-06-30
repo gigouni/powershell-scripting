@@ -15,9 +15,15 @@
 #>
 
 # -----------------------------------------------------------------
+#                        File constants
+# -----------------------------------------------------------------
+$JAVA_BIN_PATH = "C:\Program Files\Java\jre1.8.0_131\bin"
+$JAVA_EXE_PATH = "$JAVA_BIN_PATH\java.exe"
+
+# -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If (Test-Path env:JAVA_HOME) 
+If (Test-Path $JAVA_EXE_PATH) 
 {
     Invoke-Expression "java -version"
 } 

@@ -1,9 +1,9 @@
 <#
     _Description:_
 
-        Check if Java is installed by getting the JAVA_HOME environment variable
+        Check if Java is installed by checking the java.exe existence
         If true, stop the script
-        If false, run the JRE exe and set JAVA_HOME with the path to java.exe
+        If false, run the JRE exe
 
     _Author:_ Nicolas GIGOU
     _Date:_ 27th of June, 2017
@@ -13,8 +13,8 @@
 # -----------------------------------------------------------------
 #                        File constants
 # -----------------------------------------------------------------
-$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
-$JRE_PATH = "$PSScriptRoot\..\bin\jre-8u131-windows-i586.exe"
+$SCRIPTS_FOLDER_PATH = Split-Path (Split-Path $MyInvocation.MyCommand.Path -Parent) -Parent
+$JRE_PATH = "$SCRIPTS_FOLDER_PATH\bin\jre-8u131-windows-i586.exe"
 $JAVA_BIN_PATH = "C:\Program Files\Java\jre1.8.0_131\bin"
 $JAVA_EXE_PATH = "$JAVA_BIN_PATH\java.exe"
 
@@ -31,11 +31,8 @@ Else
     If(Test-Path $JRE_PATH)
     {
         Write-Host "Java hasn't been found. Let's install it now" -foregroundcolor red
-        # Run the install exe
         Write-Host "Run $JRE_PATH"
         Invoke-Expression $JRE_PATH
-        # Not mandatory but make it easier to check the Java install
-        [Environment]::SetEnvironmentVariable("JAVA_HOME", $JAVA_BIN_PATH, "User")
     }
     Else
     {

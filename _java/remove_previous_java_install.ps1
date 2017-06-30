@@ -11,9 +11,10 @@
 # -----------------------------------------------------------------
 #                            Constants
 # -----------------------------------------------------------------
-$PSScriptRoot = Split-Path $MyInvocation.MyCommand.Path -Parent
-$JRE_PATH = "$PSScriptRoot\..\bin\jre-8u131-windows-i586.exe"
-$PS_RESET_JAVA_HOME = "$PSScriptRoot\reset_java_home.ps1"
+$JAVA_FOLDER_PATH = Split-Path $MyInvocation.MyCommand.Path -Parent
+$SCRIPTS_FOLDER_PATH = Split-Path $JAVA_FOLDER_PATH -Parent
+$JRE_PATH = "$SCRIPTS_FOLDER_PATH\bin\jre-8u131-windows-i586.exe"
+$PS_RESET_JAVA_HOME = "$JAVA_FOLDER_PATH\reset_java_home.ps1"
 
 
 # -----------------------------------------------------------------
