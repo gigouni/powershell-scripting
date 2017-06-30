@@ -34,7 +34,7 @@ $IE_DRIVER_PORT = "5558"
 # -----------------------------------------------------------------
 If (Test-Path $JAVA_EXE_PATH) 
 {
-    Write-Host "Java is installed. `nGo for the selenium install if it's not already done"
+    Write-Host "Java is installed. `nGo for the IE11 run as a hub's node"
         
     <#
         # If you also want to check if the Selenium hub is currently running
