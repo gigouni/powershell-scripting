@@ -15,14 +15,15 @@
 # -----------------------------------------------------------------
 $SCRIPTS_FOLDER_PATH = Split-Path (Split-Path $MyInvocation.MyCommand.Path -Parent) -Parent
 $JRE_PATH = "$SCRIPTS_FOLDER_PATH\bin\jre-8u131-windows-i586.exe"
-$JAVA_BIN_PATH = "C:\Program Files\Java\jre1.8.0_131\bin"
-$JAVA_EXE_PATH = "$JAVA_BIN_PATH\java.exe"
+$JAVA_EXE_PATH = "java.exe"
+$JAVA_BIN_x86_PATH = "C:\Program Files\Java\jre1.8.0_131\bin\$JAVA_EXE_NAME"
+$JAVA_BIN_x64_PATH = "C:\Program Files (x86)\Java\jre1.8.0_131\bin\$JAVA_EXE_NAME"
 
 
 # -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If (Test-Path $JAVA_EXE_PATH) 
+If (Test-Path $JAVA_EXE_x86_PATH -or Test-Path $JAVA_BIN_x64_PATH) 
 { 
     Write-Host "Java is already installed, we won't do it again" -foregroundcolor green
 }

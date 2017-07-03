@@ -22,7 +22,7 @@ Just take the script content and run it. Can it be even more simple?
 
 ## For Windows [(virtual machines)](https://developer.microsoft.com/en-us/microsoft-edge/tools/vms/)
 
-__From the installation step__
+__From the installation step 01__
 
 Download these scripts or just copy the content of the script you need to. 
 By example, you can clone the scripts, compress it and drag&drop into the VM (for WS -> WS only)

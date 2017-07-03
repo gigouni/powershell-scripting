@@ -1,22 +1,23 @@
 <#
     _Description:_
 
-        Check if the Selenium is running by pinging the hub port
-        If true, run IE as a hub's node
+        Check if Java is installed by checking the java.exe existence
+        If true, check if the Selenium is present then run it
 
     _Author:_ Nicolas GIGOU
-    _Date:_ 23th of June, 2017
+    _Date:_ 29th of June, 2017
     _Powershell version used:_ 2.0
 #>
 
 # -----------------------------------------------------------------
 #                        File constants
 # -----------------------------------------------------------------
-$SCRIPTS_FOLDER_PATH = Split-Path (Split-Path $MyInvocation.MyCommand.Path -Parent) -Parent
+$SCRIPTS_FOLDER_PATH = Split-Path $MyInvocation.MyCommand.Path -Parent
 
 # Java
-$JAVA_BIN_PATH = "C:\Program Files\Java\jre1.8.0_131\bin"
-$JAVA_EXE_PATH = "$JAVA_BIN_PATH\java.exe"
+$JAVA_EXE_PATH = "java.exe"
+$JAVA_BIN_x86_PATH = "C:\Program Files\Java\jre1.8.0_131\bin\$JAVA_EXE_NAME"
+$JAVA_BIN_x64_PATH = "C:\Program Files (x86)\Java\jre1.8.0_131\bin\$JAVA_EXE_NAME"
 
 # Selenium
 $SELENIUM_JAR_PATH = "$SCRIPTS_FOLDER_PATH\bin\selenium-server-standalone-3.4.0.jar"
@@ -25,32 +26,19 @@ $SELENIUM_HUB_PORT = "4444"
 $GRID_REGISTER_URL = "/grid/register"
 
 # Selenium node - IE11
-$IE_DRIVER_EXE = "IEDriverServer"
+$IE_DRIVER_EXE_PATH = "IEDriverServer"
 $IE_DRIVER_PORT = "5558"
-
 
 # -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If (Test-Path $JAVA_EXE_PATH) 
+If (Test-Path $JAVA_EXE_x86_PATH -or Test-Path $JAVA_BIN_x64_PATH) 
 {
-    Write-Host "Java is installed. `nGo for the IE11 run as a hub's node"
-        
-    <#
-        # If you also want to check if the Selenium hub is currently running
-        If (Test-Port -computer $SELENIUM_HUB_HOST -port $SELENIUM_HUB_PORT) 
-        { 
-            Write-Host "The Selenium hub is running on the $SELENIUM_HUB_PORT port" -foregroundcolor green
-        } 
-        Else 
-        { 
-            Write-Host "The Selenium hub isn't running on the $SELENIUM_HUB_PORT port. Correct it before running this script" -foregroundcolor red
-        }
-    #>
+    Write-Host "Java is installed" -foregroundcolor green
 
     # Splite the command into several little ones to simplify the visibility of options and easily move the params order
     $cmd = "java"
-    $opts = "-Dwebdriver=$IE_DRIVER_EXE "
+    $opts = "-Dwebdriver=$IE_DRIVER_EXE_PATH "
     $opts += "-jar $SELENIUM_JAR_PATH "
     $opts += "-browser `"browserName=internet explorer,version=11,platform=WINDOWS`" "
     $opts += "-role node "
@@ -64,7 +52,8 @@ If (Test-Path $JAVA_EXE_PATH)
 Else 
 { 
     Write-Host "Java isn't installed yet. `nRun Java install script before this one" -foregroundcolor red
+    Write-Host "Then, run the step_02 before this one"
 }
 
 Write-Host "`n`nThis window will automatically be closed in some seconds"
-Start-Sleep -s 100
+Start-Sleep -s 10

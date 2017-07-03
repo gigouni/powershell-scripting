@@ -12,11 +12,12 @@
 # -----------------------------------------------------------------
 #                        File constants
 # -----------------------------------------------------------------
-$SCRIPTS_FOLDER_PATH = Split-Path (Split-Path $MyInvocation.MyCommand.Path -Parent) -Parent
+$SCRIPTS_FOLDER_PATH = Split-Path $MyInvocation.MyCommand.Path -Parent
 
 # Java
-$JAVA_BIN_PATH = "C:\Program Files\Java\jre1.8.0_131\bin"
-$JAVA_EXE_PATH = "$JAVA_BIN_PATH\java.exe"
+$JAVA_EXE_PATH = "java.exe"
+$JAVA_BIN_x86_PATH = "C:\Program Files\Java\jre1.8.0_131\bin\$JAVA_EXE_NAME"
+$JAVA_BIN_x64_PATH = "C:\Program Files (x86)\Java\jre1.8.0_131\bin\$JAVA_EXE_NAME"
 
 # Selenium
 $SELENIUM_JAR_PATH = "$SCRIPTS_FOLDER_PATH\bin\selenium-server-standalone-3.4.0.jar"
@@ -29,10 +30,11 @@ $SELENIUM_JAR_DL_URL = "http://selenium-release.storage.googleapis.com/3.4/selen
 # -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If (Test-Path $JAVA_EXE_PATH) 
+If (Test-Path $JAVA_EXE_x86_PATH -or Test-Path $JAVA_BIN_x64_PATH) 
 {
     Write-Host "Java is installed" -foregroundcolor green
     Write-Host "Let's try to run the Selenium hub now..."
+
     If (Test-Path $SELENIUM_JAR_PATH) 
     { 
         # Run browser to check grid console
@@ -40,18 +42,18 @@ If (Test-Path $JAVA_EXE_PATH)
         $IE.navigate2("$SELENIUM_HUB_URL`:$SELENIUM_HUB_PORT$SELENIUM_GRID_CONSOLE_URL")
         $IE.visible=$true
 
-        Write-Host "Everything is OK for the Selenium hub. Gonna run it now"
         Invoke-Expression "java -jar $SELENIUM_JAR_PATH -port $SELENIUM_HUB_PORT -role hub"
     } 
     Else 
     { 
-        Write-Host "The JAR hasn't been found. Please download it and move it here: $PSScriptRoot\..\bin" -foregroundcolor red
+        Write-Host "The Selenium JAR hasn't been found. Please download it and move it here: $SCRIPTS_FOLDER_PATH\bin" -foregroundcolor red
         Write-Host "Note: you can find it here: $SELENIUM_JAR_DL_URL"
     }
 } 
 Else 
 { 
-    Write-Host "Java isn't installed yet. `nRun Java install script before this one" -foregroundcolor red 
+    Write-Host "Java hasn't been installed yet" -foregroundcolor red
+    Write-Host "Run the step 01 script before"
 }
 
 Write-Host "`n`nThis window will automatically be closed in some seconds"

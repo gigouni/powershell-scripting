@@ -15,8 +15,9 @@
 $SCRIPTS_FOLDER_PATH = Split-Path $MyInvocation.MyCommand.Path -Parent
 
 # Java
-$JAVA_BIN_PATH = "C:\Program Files\Java\jre1.8.0_131\bin"
-$JAVA_EXE_PATH = "$JAVA_BIN_PATH\java.exe"
+$JAVA_EXE_PATH = "java.exe"
+$JAVA_BIN_x86_PATH = "C:\Program Files\Java\jre1.8.0_131\bin\$JAVA_EXE_NAME"
+$JAVA_BIN_x64_PATH = "C:\Program Files (x86)\Java\jre1.8.0_131\bin\$JAVA_EXE_NAME"
 
 # Selenium
 $SELENIUM_JAR_PATH = "$SCRIPTS_FOLDER_PATH\bin\selenium-server-standalone-3.4.0.jar"
@@ -31,7 +32,7 @@ $IE_DRIVER_PORT = "5558"
 # -----------------------------------------------------------------
 #                             Script
 # -----------------------------------------------------------------
-If (Test-Path $JAVA_EXE_PATH) 
+If (Test-Path $JAVA_EXE_x86_PATH -or Test-Path $JAVA_BIN_x64_PATH) 
 {
     Write-Host "Java is installed" -foregroundcolor green
 

@@ -14,7 +14,6 @@
 # -----------------------------------------------------------------
 $SCRIPTS_FOLDER_PATH = Split-Path (Split-Path $MyInvocation.MyCommand.Path -Parent) -Parent
 $PARENT_SCRIPTS_FOLDER_PATH = Split-Path $SCRIPTS_FOLDER_PATH -Parent
-$SOURCE = "$SCRIPTS_FOLDER_PATH"
 $DESTINATION = "$PARENT_SCRIPTS_FOLDER_PATH\scripts.zip"
 
 
@@ -29,7 +28,7 @@ If(Test-path $DESTINATION) {
 Write-Host "Compressing..."
 
 Add-Type -assembly "system.io.compression.filesystem"
-[io.compression.zipfile]::CreateFromDirectory($SOURCE, $DESTINATION)
+[io.compression.zipfile]::CreateFromDirectory($SCRIPTS_FOLDER_PATH, $DESTINATION)
 
 Write-Host "Folder compressed successfully!" -foregroundcolor green
 
