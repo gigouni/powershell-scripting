@@ -60,6 +60,9 @@ You can prevent useless start services by taping _msconfig_ in the Windows searc
 Do not hesitate to share the clipboards between the host and the VM. To do it, with Virtual Box by exemple, you won't even need to shutdown your VM, just go 
 to _Settings_, _General_, then _Advanced_. Set the _Shared clipboard_ value to _bidirectional_
 
+#### Files and extensions
+
+To have a better visibility about what's going on and what we're doing with the files, you can show hidden files and hidden extensions for known type file just by taping _hidden_ in the Windows search bar and browsing the _Settings_ panel
 
 ## Contributing
 
